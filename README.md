@@ -19,12 +19,16 @@ Then, run the script in `conv_test06.ipynb`
 **Requantization**: after each layer’s int32 multiply-and accumulate, we rescale with a **per-output-channel** integer multiplier **M** and right-shift **S**, then clamp to int8 to keep activations in range:
 
 $$
-y_{\text{int8}} = \text{clip}\left(\frac{\text{acc}_{\text{int32}}\cdot M_o \;\pm\; 2^{S-1}}{2^{S}},\,-128,\,127\right)
+y_{\text{int8}} = \text{clip}\left(\frac{\text{acc}_{\text{int32}}\cdot M_o \pm 2^{S-1}}{2^{S}},-128,127\right)
 $$
 
-We pick $$S = 30$$ 
+We pick 
+
+$$S = 30$$
+
 and 
-$$M_o \;=\; \left\lfloor \frac{s_x\, s_{w,o}}{s_y} \, 2^{S} \;+\; \tfrac{1}{2} \right\rfloor$$
+
+$$M_o = \left\lfloor \frac{s_x s_{w,o}}{s_y} 2^{S} + \tfrac{1}{2} \right\rfloor$$
 
 Where:
 - $s_x$ is the input activation scale
@@ -32,3 +36,10 @@ Where:
 - $s_y$ is the output activation scale
 
 **Output**: a int8 class index from 0-9.
+
+## To do
+- tutorial
+- upload training notebook
+- throughput
+- python frontend?
+- pynq overlay driver
